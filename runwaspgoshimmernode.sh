@@ -5,7 +5,7 @@ echo $currentdir
 sudo apt-get install jq
 
 rungoshimmer () {
-    git clone --branch v0.8.11 https://github.com/iotaledger/goshimmer.git
+    git clone --branch v0.7.7 https://github.com/iotaledger/goshimmer.git
     cd goshimmer
     go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
     ./scripts/build.sh
