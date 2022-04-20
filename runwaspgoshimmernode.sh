@@ -5,12 +5,12 @@ echo $currentdir
 sudo apt-get install jq
 
 rungoshimmer () {
-    git clone --branch v0.7.7 https://github.com/iotaledger/goshimmer.git
+    git clone --branch v0.7.7 --single-branch https://github.com/iotaledger/goshimmer.git
     cd goshimmer
     go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
     ./scripts/build.sh
     wget -O snapshot.bin https://dbfiles-goshimmer.s3.eu-central-1.amazonaws.com/snapshots/nectar/snapshot-latest.bin
-    ./goshimmer --node.enablePlugins=remotelog,networkdelay,spammer,prometheus,txstream,faucet --faucet.seed=Dz8LkHNDNxMNGvw5bSpSbWs6woFtWbd8EfGBzXHjUPZ7
+    ./goshimmer --node.enablePlugins=remotelog,networkdelay,spammer,prometheus,txstream,faucet --faucet.seed=Dz8LkHNDNxMNGvw5bSpSbWs6woFtWbd8EfGBzXHjUPZ7   --node.disablePlugins=portcheck
 }
 
 export -f rungoshimmer
@@ -35,7 +35,7 @@ runwasp () {
 export -f runwasp
 gnome-terminal --tab -e "bash -c 'runwasp'"
 
-fgs="$currentdir/goshimmer/goshimmer"
+fgs="$currentdir/goshimmer/snapshot.bin"
 while [ ! -f $fgs ]
 do
     sleep 30s
@@ -48,5 +48,6 @@ do
 done 
 
 # Wait and request for funds 
+sleep 120s 
 cd "$currentdir/wasp"
 ./wasp-cli request-funds
